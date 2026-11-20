@@ -265,3 +265,6 @@ events.forEach(e => {
 # 파이썬의 EVENTS를 JSON으로 바꿔서 HTML에 끼워 넣어요.
 page = HTML.replace("__EVENTS__", json.dumps(EVENTS, ensure_ascii=False))
 components.html(page, height=PAGE_HEIGHT, scrolling=True)
+
+pip install -r requirements.txt
+streamlit run app.py
