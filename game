@@ -1,9 +1,45 @@
+import json
+
+import streamlit as st
+import streamlit.components.v1 as components
+
+st.set_page_config(
+    page_title="송이모지 이벤트",
+    page_icon="🍄",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
+
+# ───────────── 여기만 고치면 돼요 ─────────────
+# 이벤트 목록 (진행 예정 이벤트)
+EVENTS = [
+    {"month": "12월", "day": "05", "title": "이벤트 이름 1", "desc": "이벤트 설명을 적어 주세요.", "status": "모집 중"},
+    {"month": "12월", "day": "12", "title": "이벤트 이름 2", "desc": "이벤트 설명을 적어 주세요.", "status": "준비 중"},
+    {"month": "12월", "day": "24", "title": "이벤트 이름 3", "desc": "이벤트 설명을 적어 주세요.", "status": "준비 중"},
+]
+
+# 페이지가 들어갈 화면 높이(px). 내용이 잘리면 늘려 주세요.
+PAGE_HEIGHT = 1000
+# ─────────────────────────────────────────────
+
+# Streamlit 기본 여백과 헤더를 숨겨서 사이트처럼 보이게 해요.
+st.markdown(
+    """
+    <style>
+      #MainMenu, header, footer {visibility: hidden;}
+      .block-container {padding: 0 !important; max-width: 100% !important;}
+      iframe {border: 0; display: block;}
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+HTML = r"""
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>송이모지 이벤트</title>
 <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&family=DotGothic16&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -21,7 +57,6 @@ body{
 h1,h2,h3{font-family:"Jua","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-weight:400;margin:0;line-height:1.25}
 .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
 
-/* 헤더 */
 header.top{
   position:sticky;top:0;z-index:20;background:linear-gradient(180deg,var(--g8),var(--g9));
   border-bottom:4px solid transparent;
@@ -36,18 +71,14 @@ header.top{
 .brand b{font-family:"Jua",sans-serif;font-weight:400;font-size:1.3rem;display:block;line-height:1.1}
 .brand small{font-size:.65rem;letter-spacing:.25em;color:var(--yellow)}
 .menu{display:flex;gap:4px;padding:5px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.15)}
-.menu a{
-  color:#e7f5ee;text-decoration:none;padding:7px 16px;border-radius:999px;font-size:.95rem;white-space:nowrap;
-}
+.menu a{color:#e7f5ee;text-decoration:none;padding:7px 16px;border-radius:999px;font-size:.95rem;white-space:nowrap}
 .menu a.on,.menu a:hover{background:var(--yellow);color:var(--g9)}
 
-/* 전구 장식 */
 .lights{
   height:34px;margin-bottom:-34px;position:relative;z-index:5;pointer-events:none;
   background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="34"><path d="M0 5 Q15 18 30 5 T60 5" fill="none" stroke="%23f6e7b4" stroke-width="1.5"/><circle cx="15" cy="14" r="4" fill="%23ffd86b"/><circle cx="45" cy="14" r="4" fill="%23ffb3c6"/></svg>') repeat-x;
 }
 
-/* 히어로 */
 .hero{
   position:relative;color:#fff;padding:96px 0 120px;overflow:hidden;
   background:
@@ -82,7 +113,6 @@ header.top{
 .btn.g{color:#fff;border:2px solid rgba(255,255,255,.5);background:rgba(255,255,255,.1)}
 .btn:focus-visible,.menu a:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
 
-/* 정보 바 */
 .info{
   position:relative;z-index:6;margin-top:-52px;display:grid;grid-template-columns:repeat(3,1fr);
   background:#fff;border:2px solid var(--g8);border-radius:24px;box-shadow:0 10px 0 #f3d9bd;overflow:hidden;
@@ -96,7 +126,6 @@ header.top{
 .info small{display:block;color:var(--muted);font-size:.8rem;line-height:1.3}
 .info b{font-weight:400;font-family:"Jua",sans-serif}
 
-/* 섹션 */
 section{padding:72px 0 8px}
 .label{display:flex;align-items:center;gap:10px;font-size:.85rem}
 .label .dot{width:22px;height:22px;border-radius:50%;border:5px solid var(--g9);background:#fff}
@@ -105,7 +134,6 @@ section{padding:72px 0 8px}
 section h2{font-size:clamp(1.9rem,5vw,2.6rem);margin:12px 0 8px}
 section .lead{color:var(--muted);margin:0 0 28px;max-width:34em}
 
-/* 서버 소개 */
 .about{display:grid;grid-template-columns:1.3fr 1fr;gap:18px}
 .card{border-radius:26px;padding:28px}
 .card.dark{background:var(--g9);color:#e7f5ee}
@@ -115,7 +143,6 @@ section .lead{color:var(--muted);margin:0 0 28px;max-width:34em}
 .card.light li{display:flex;gap:12px;align-items:center}
 .card.light li span{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#ffe9b5;flex:none}
 
-/* 이벤트 */
 .events{list-style:none;margin:0;padding:0;display:grid;gap:16px}
 .event{display:grid;grid-template-columns:110px 1fr;background:#fff;border:2px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 6px 0 #f3d9bd}
 .stub{background:var(--g9);color:var(--yellow);text-align:center;padding:16px 8px;font-family:"Jua",sans-serif;border-right:3px dashed var(--cream)}
@@ -178,7 +205,6 @@ footer{margin-top:80px;background:var(--g9);color:#bcd8cc;text-align:center;padd
       <div><span class="ic">💬</span><span><small>참여 방법</small><b>서버 링크 추가 예정</b></span></div>
     </div>
 
-    <!-- 서버 소개 -->
     <section id="about">
       <div class="label"><span class="dot"></span><span class="tag">NEXT STOP 01</span><span>서버 소개</span><span class="dash"></span></div>
       <h2>송이모지는 이런 곳이에요</h2>
@@ -198,7 +224,6 @@ footer{margin-top:80px;background:var(--g9);color:#bcd8cc;text-align:center;padd
       </div>
     </section>
 
-    <!-- 이벤트 목록 -->
     <section id="events">
       <div class="label"><span class="dot"></span><span class="tag">NEXT STOP 02</span><span>이벤트 목록</span><span class="dash"></span></div>
       <h2>곧 열릴 이벤트예요</h2>
@@ -211,12 +236,7 @@ footer{margin-top:80px;background:var(--g9);color:#bcd8cc;text-align:center;padd
 <footer>© 송이모지 · 귀엽게 운영 중이에요 🍄</footer>
 
 <script>
-// ▼ 이벤트는 여기만 고치면 목록과 개수가 자동으로 바뀌어요.
-const events = [
-  { month: "12월", day: "05", title: "이벤트 이름 1", desc: "이벤트 설명을 적어 주세요.", status: "모집 중" },
-  { month: "12월", day: "12", title: "이벤트 이름 2", desc: "이벤트 설명을 적어 주세요.", status: "준비 중" },
-  { month: "12월", day: "24", title: "이벤트 이름 3", desc: "이벤트 설명을 적어 주세요.", status: "준비 중" }
-];
+const events = __EVENTS__;
 
 document.getElementById("count").textContent = events.length + "개";
 const list = document.getElementById("eventList");
@@ -240,3 +260,8 @@ events.forEach(e => {
 </script>
 </body>
 </html>
+"""
+
+# 파이썬의 EVENTS를 JSON으로 바꿔서 HTML에 끼워 넣어요.
+page = HTML.replace("__EVENTS__", json.dumps(EVENTS, ensure_ascii=False))
+components.html(page, height=PAGE_HEIGHT, scrolling=True)
