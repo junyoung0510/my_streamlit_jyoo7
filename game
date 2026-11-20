@@ -1,1 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>송이모지 이벤트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff4ea; --surface:#ffffff; --ink:#5a3a31; --muted:#8c6a5f;
+  --pink:#ff9eb5; --pink-soft:#ffe0e8; --mint:#bdeedd; --butter:#ffe8a3; --line:#f3d9c6;
+  --shadow:#f0c9b0;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#2b1f24; --surface:#3a2a31; --ink:#ffeee2; --muted:#d3b5aa;
+    --pink:#ff9eb5; --pink-soft:#55333f; --mint:#2f5a4d; --butter:#5d4c22; --line:#53393f;
+    --shadow:#1d1418;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#2b1f24; --surface:#3a2a31; --ink:#ffeee2; --muted:#d3b5aa;
+  --pink-soft:#55333f; --mint:#2f5a4d; --butter:#5d4c22; --line:#53393f; --shadow:#1d1418;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:17px;line-height:1.75;
+  background-image:radial-gradient(var(--line) 1.5px,transparent 1.5px);
+  background-size:26px 26px;
+}
+h1,h2,h3{font-family:"Jua","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-weight:400;margin:0;line-height:1.3}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
 
+/* 상단 메뉴 */
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.logo{font-family:"Jua",sans-serif;font-size:1.3rem;text-decoration:none;color:var(--ink)}
+nav .links{display:flex;gap:8px}
+nav a.pill{
+  text-decoration:none;color:var(--ink);background:var(--surface);
+  padding:6px 16px;border-radius:999px;border:2px solid var(--line);font-size:.95rem;
+}
+nav a.pill:hover,nav a.pill:focus-visible{background:var(--pink-soft);outline:none;border-color:var(--pink)}
+
+/* 히어로 */
+.hero{text-align:center;padding:36px 0 56px}
+.mascot{
+  display:inline-grid;place-items:center;width:140px;height:140px;border-radius:50%;
+  background:var(--pink-soft);font-size:4.2rem;border:4px solid var(--surface);
+  box-shadow:0 8px 0 var(--shadow);
+  animation:bob 2.6s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@media (prefers-reduced-motion:reduce){.mascot{animation:none}}
+.hero h1{font-size:clamp(2.4rem,9vw,3.8rem);margin:22px 0 6px}
+.hero p{margin:0 auto;max-width:30em;color:var(--muted)}
+
+/* 섹션 */
+section{padding:28px 0}
+.box{
+  background:var(--surface);border:3px solid var(--line);border-radius:28px;
+  padding:28px 26px;box-shadow:0 6px 0 var(--shadow);
+}
+.box h2{font-size:1.7rem;margin-bottom:14px}
+.box h2 span{margin-right:6px}
+
+/* 서버 소개 */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:20px}
+.fact{border-radius:20px;padding:14px 16px;font-size:.95rem;line-height:1.5}
+.fact b{display:block;font-family:"Jua",sans-serif;font-weight:400;font-size:1.1rem}
+.fact:nth-child(1){background:var(--mint)}
+.fact:nth-child(2){background:var(--butter)}
+.fact:nth-child(3){background:var(--pink-soft)}
+
+/* 이벤트 목록 */
+.events{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.event{
+  display:grid;grid-template-columns:76px 1fr;gap:16px;align-items:center;
+  background:var(--bg);border:2px dashed var(--line);border-radius:22px;padding:14px 16px;
+}
+.date{
+  background:var(--pink);color:#4a2630;border-radius:18px;text-align:center;
+  padding:8px 0;font-family:"Jua",sans-serif;line-height:1.2;
+}
+.date small{display:block;font-size:.8rem}
+.date strong{font-size:1.6rem;font-weight:400}
+.event h3{font-size:1.2rem}
+.event p{margin:2px 0 0;color:var(--muted);font-size:.95rem;line-height:1.55}
+.badge{
+  display:inline-block;margin-left:8px;padding:0 10px;border-radius:999px;
+  background:var(--mint);font-family:"Gowun Dodum",sans-serif;font-size:.8rem;vertical-align:middle;
+}
+.empty{text-align:center;color:var(--muted);padding:20px 0}
+
+footer{text-align:center;color:var(--muted);padding:36px 0 44px;font-size:.9rem}
+:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="#top">🍄 송이모지</a>
+    <div class="links">
+      <a class="pill" href="#about">서버 소개</a>
+      <a class="pill" href="#events">이벤트</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="mascot" aria-hidden="true">🍄</div>
+    <h1>송이모지</h1>
+    <p>이모지처럼 알록달록한 사람들이 모이는 곳이에요. 이번엔 어떤 이벤트가 열릴까요?</p>
+  </header>
+
+  <!-- 서버 소개 칸 -->
+  <section id="about">
+    <div class="box">
+      <h2><span>🌱</span>서버 소개</h2>
+      <!-- ▼ 여기에 송이모지 서버 설명을 적어 주세요 -->
+      <p>송이모지는 편하게 수다 떨고 함께 노는 커뮤니티 서버예요. 서버 소개 문구를 여기에 자유롭게 적어 주세요.</p>
+      <div class="facts">
+        <div class="fact"><b>어떤 서버?</b>서버 성격을 한 줄로 적어요</div>
+        <div class="fact"><b>누가 있나요?</b>멤버 분위기나 규모를 적어요</div>
+        <div class="fact"><b>어떻게 들어와요?</b>참여 방법이나 링크를 적어요</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 이벤트 목록 칸 -->
+  <section id="events">
+    <div class="box">
+      <h2><span>🎉</span>진행 예정 이벤트</h2>
+      <ul class="events" id="eventList"></ul>
+    </div>
+  </section>
+
+  <footer>© 송이모지 · 귀엽게 운영 중이에요 🍄</footer>
+</div>
+
+<script>
+// ▼ 이벤트는 여기만 고치면 목록이 자동으로 바뀌어요.
+const events = [
+  { month: "12월", day: "05", title: "이벤트 이름 1", desc: "이벤트 설명을 적어 주세요.", status: "모집 중" },
+  { month: "12월", day: "12", title: "이벤트 이름 2", desc: "이벤트 설명을 적어 주세요.", status: "준비 중" },
+  { month: "12월", day: "24", title: "이벤트 이름 3", desc: "이벤트 설명을 적어 주세요.", status: "준비 중" }
+];
+
+const list = document.getElementById("eventList");
+if (!events.length) {
+  list.innerHTML = '<li class="empty">아직 예정된 이벤트가 없어요. 곧 알려 드릴게요!</li>';
+} else {
+  events.forEach(e => {
+    const li = document.createElement("li");
+    li.className = "event";
+    li.innerHTML =
+      '<div class="date"><small></small><strong></strong></div>' +
+      '<div><h3></h3><p></p></div>';
+    li.querySelector("small").textContent = e.month;
+    li.querySelector("strong").textContent = e.day;
+    li.querySelector("h3").textContent = e.title;
+    const badge = document.createElement("span");
+    badge.className = "badge";
+    badge.textContent = e.status;
+    li.querySelector("h3").appendChild(badge);
+    li.querySelector("p").textContent = e.desc;
+    list.appendChild(li);
+  });
+}
+</script>
+</body>
+</html>
